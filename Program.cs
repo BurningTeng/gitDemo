@@ -1,10 +1,15 @@
-using  System.Diagnostics;
+    using  System.Diagnostics;
+using ThirdParty.Json.LitJson;
+using System.IO;
 
 // See https://aka.ms/new-console-template for more information
 Console.WriteLine("Hello, World!");
 int? ExitCode = -1;
+string ShPath;
+GetShPath();
+//dotnet-sdk-6.0
 while (true) {
-   executeCommand();
+   ExecuteCommand();
    if (ExitCode == 0) break;
    Console.WriteLine("Finish one loop");
    //already exist, it will be replaced with node
@@ -12,10 +17,19 @@ while (true) {
    await Task.Delay(5000);
 }
 
+void GetShPath()
+{
+   var folder = Environment.SpecialFolder.LocalApplicationData;
+   var path = Environment.GetFolderPath(folder);
+   var config = System.IO.Path.Join(path, "config.txt");
+   ShPath =  File.ReadAllText(config).Trim();
+   Console.WriteLine(ShPath);
+}
+
 //while (line != null && line.Contains("already exist, it will be replaced with node"))
-void executeCommand() {
+void ExecuteCommand() {
    ProcessStartInfo processStartInfo = 
-       new ProcessStartInfo("bash", "/home/burning/release/0330/build/prebuilts_download.sh");
+       new ProcessStartInfo("bash", ShPath);
    processStartInfo.UseShellExecute   = true;
    processStartInfo.CreateNoWindow = true;
    //zprocessStartInfo.RedirectStandardOutput = false;
@@ -26,5 +40,3 @@ void executeCommand() {
    Console.WriteLine("Err code:" + ExitCode);
    process?.Close();
  }
-
-
