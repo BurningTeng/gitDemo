@@ -1,18 +1,39 @@
 using  System.Diagnostics;
+
+using ThirdParty.Json.LitJson;
+
 using System.IO;
 
+
+
 // See https://aka.ms/new-console-template for more information
+
 Console.WriteLine("Hello, World!");
 
 int? ExitCode = -1;
+
 Console.Write("Please input prebuilts_download.sh path: ");
+
 string? ShPath = Console.ReadLine()?.Trim();
+
+var os = System.Environment.OSVersion;
+
+Console.WriteLine(os.Platform);
+
 //dotnet-sdk-6.0
+
 while (true) {
+
    ExecuteCommand();
+
    if (ExitCode == 0) break;
-   Console.WriteLine("Finish one loop");
+
+   Console.WriteLine("Finish once loop");
+
+   //already exist, it will be replaced with node
+
    Console.WriteLine();
+
    await Task.Delay(5000);
 
 }
